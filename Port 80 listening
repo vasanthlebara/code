@@ -1,0 +1,14 @@
+Running Apache and IIS 6 together on the same server
+We have a Windows Small Business Server at work, which we wanted to install Subversion onto. We therefore wanted to run Apache on the same server. However, IIS is also installed on the same machine for Small Business Server purposes so I couldn't just remove IIS.
+
+I had added multiple IP addresses to the server so that IIS could have one and Apache could have another (so they could both run on port 80). However, I ran into the problem that IIS was taking control of all IP addresses on port 80 and so Apache wouldn't start. It seems that IIS 6.0 has a "feature" called Socket Pooling that claims all ports for all loaded IP address (even if not configured in IIS) - nice! So IIS had control of the port 80 on the IP address I had assigned to Apache.
+
+Do not fear - there is a workaround:
+
+Extract the httpcfg.exe utility from the support tools area on the Win2003 CD.
+stop all IIS services: net stop http /y
+have IIS listen only on the IP address I'd designated for IIS: httpcfg set iplisten -i 192.168.1.253
+make sure: httpcfg query iplisten (the ip's listed are the only ip addresses that IIS will be listening on and no other)
+restart IIS Services: net start w3svc
+start Apache service
+You'll then find that Apache and IIS will then play nicely together and run on the correct ports on the correct IP addresses. Woo hoo!
