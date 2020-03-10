@@ -14,3 +14,10 @@
         {% endif %}
 {%endfor%}
 {% endblock %}
+
+
+class IncidentListView(ListView):
+    model = Post
+    template_name ='lebara/incidents.html'
+    context_object_name = 'posts'
+    ordering = ['-date_posted']
