@@ -1,0 +1,16 @@
+
+{% extends "lebara/base.html" %}
+{% block content1 %}
+{%for post in posts%}
+        {%if post.Status == 'Resolved' %}
+            <article class="media content-section">
+               <div class="media-body">
+                   <div class="article-metadata">
+                      <a class="mr-2" href="#">Incident Name: {{ post.Priority }} - {{post.Status}} - {{ post.Incident_name }}</a>
+                    </div>
+                    <h2><a class="article-title" href="{% url 'post-detail' post.id %}"><br> RESOLVED {{ post.date_posted }}</br></a></h2>
+                    </div>
+            </article>
+        {% endif %}
+{%endfor%}
+{% endblock %}
