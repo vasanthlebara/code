@@ -1,0 +1,30 @@
+def send_email(request,pk):
+
+    post = Post.objects.get(pk=pk)
+    subject = post.Incident_name
+    #Incident_name: post.Incident_name
+    #Update: post.Update
+    context2 = {
+        'post': post,
+
+        }
+
+    if request.method == 'GET':
+        #email = request.POST.get("email")
+        #message = 'This is an important message.'
+        #html_message = render_to_string(
+            #'lebara\post_email.html',
+            #{
+                #'Incident_name': post.Incident_name,
+               # 'Update': post.Update
+            #}
+       # )
+
+        #send_mail(subject, message, 'vasanthlebara@gmail.com', ['vasantharaman.janaki@lebara.com'], fail_silently=False, html_message=html_message)
+        html_content = render_to_string('lebara\post_email.html', context2)
+        msg = EmailMultiAlternatives(subject,html_content,'vasanthlebara@gmail.com',['vasantharaman.janaki@lebara.com'])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+        return render(request,'lebara/open.html')
+    else:
+        return render(request, 'lebara/post_email.html', context2)
